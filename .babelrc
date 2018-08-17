@@ -1,3 +1,9 @@
 {
-  "plugins": ["react-hot-loader/babel", "syntax-dynamic-import"]
+  "presets": [
+    "react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel", 
+    "syntax-dynamic-import"
+  ]
 }

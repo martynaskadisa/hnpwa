@@ -3,3 +3,9 @@ declare module '*/webpack-assets.json' {
 
   export = content;
 }
+
+declare module '*/react-loadable.json' {
+  const content: any;
+
+  export = content;
+}

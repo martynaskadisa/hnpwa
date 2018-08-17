@@ -2,10 +2,11 @@ import * as Koa from 'koa';
 import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
 import * as path from 'path';
+import { render } from 'server/middleware/render';
 import { ROOT_DIR } from 'server/utils/path';
-import { watch } from './watcher';
+// import { watch } from './watcher';
 
-watch();
+// watch();
 
 const init = async () => {
   const app = new Koa();
@@ -19,13 +20,17 @@ const init = async () => {
 
     const webpack = await createWebpackMiddleware();
     app.use(webpack);
+
+    app.use(async (ctx, next) => {
+      const {
+        render: dynamicRender
+      } = await import('server/middleware/render');
+
+      dynamicRender(ctx, next);
+    });
+  } else {
+    app.use(render);
   }
-
-  app.use(async (ctx, next) => {
-    const { render } = await import('server/middleware/render');
-
-    render(ctx, next);
-  });
 
   app.listen(3000, 'localhost', () =>
     // tslint:disable-next-line:no-console

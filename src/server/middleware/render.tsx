@@ -1,30 +1,56 @@
 import App from 'common/app';
 import { Context, Middleware } from 'koa';
+import { chain, compose } from 'ramda';
 import * as React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
+import { MemoryRouter } from 'react-router';
 import Html from 'server/components/html';
-import * as assets from '../../../webpack-assets.json';
+import { Stats } from 'webpack';
+import * as staticWebpackAssets from '../../../webpack-assets.json';
 
-console.log('Im static');
+interface IStatsJSON {
+  assetsByChunkName: {
+    [chunkName: string]: string | string[];
+  };
+  publicPath: string;
+}
 
 const getScripts = (ctx: Context) => {
-  if (!ctx.state.webpackStats) {
-    return [assets.app.js];
+  const stats: Stats = ctx.state.webpackStats;
+
+  if (!stats) {
+    return [staticWebpackAssets.app.js];
   }
 
-  return [ctx.state.webpackStats.toJson().assetsByChunkName.app];
+  const { publicPath, assetsByChunkName } = stats.toJson() as IStatsJSON;
+
+  const transform = compose(
+    (assets: string[]) => assets.map(asset => publicPath + asset),
+    (assets: string | string[]) => (Array.isArray(assets) ? assets : [assets]),
+    (chunkName: string) => assetsByChunkName[chunkName]
+  );
+
+  const chunkNames = Object.keys(assetsByChunkName);
+  const scripts = chain(transform, chunkNames).filter(asset =>
+    asset.endsWith('.js')
+  );
+
+  return scripts;
 };
 
 export const render: Middleware = ctx => {
+  ctx.set('Content-Type', 'text/html');
   const scripts = getScripts(ctx);
 
-  console.log(scripts);
-
-  ctx.set('Content-Type', 'text/html');
   const Component = () => (
-    <Html scripts={scripts}>
-      <App />
-    </Html>
+    <MemoryRouter>
+      <Html scripts={scripts}>
+        <App />
+      </Html>
+    </MemoryRouter>
   );
-  ctx.body = renderToNodeStream(<Component />);
+
+  const stream = renderToNodeStream(<Component />);
+
+  ctx.body = stream;
 };
