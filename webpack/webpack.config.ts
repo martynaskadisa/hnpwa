@@ -1,15 +1,15 @@
 import * as AssetsPlugin from 'assets-webpack-plugin';
 import * as path from 'path';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
-import { Configuration, Plugin, Resolve, Rule } from 'webpack';
+import { Configuration, Entry, Plugin, Resolve, Rule } from 'webpack';
 
 const ROOT = path.resolve(__dirname, '../');
 const OUTPUT_DESTINATION = path.resolve(ROOT, 'dist');
 const IS_PROD = process.env.NODE_ENV === 'production';
 export const PUBLIC_PATH = '/assets/';
 
-const entry = {
-  app: './src/client/index.tsx'
+const entry: Entry = {
+  app: ['./src/client/index.tsx']
 };
 
 const output = IS_PROD

@@ -3,15 +3,34 @@ import * as mount from 'koa-mount';
 import * as serve from 'koa-static';
 import * as path from 'path';
 import { ROOT_DIR } from 'server/utils/path';
-import { render } from './controllers/render';
+import { watch } from './watcher';
 
-const app = new Koa();
+watch();
 
-app.use(mount('/assets', serve(path.join(ROOT_DIR, 'dist'))));
+const init = async () => {
+  const app = new Koa();
 
-app.use(render);
+  app.use(mount('/assets', serve(path.join(ROOT_DIR, 'dist'))));
 
-app.listen(3000, 'localhost', () =>
-  // tslint:disable-next-line:no-console
-  console.log('Server started on http://localhost:3000')
-);
+  if (process.env.NODE_ENV !== 'production') {
+    const {
+      createWebpackMiddleware
+    } = await import('server/middleware/webpack');
+
+    const webpack = await createWebpackMiddleware();
+    app.use(webpack);
+  }
+
+  app.use(async (ctx, next) => {
+    const { render } = await import('server/middleware/render');
+
+    render(ctx, next);
+  });
+
+  app.listen(3000, 'localhost', () =>
+    // tslint:disable-next-line:no-console
+    console.log('Server started on http://localhost:3000')
+  );
+};
+
+init();
