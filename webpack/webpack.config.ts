@@ -1,7 +1,14 @@
 import * as AssetsPlugin from 'assets-webpack-plugin';
 import * as path from 'path';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
-import { Configuration, Entry, Plugin, Resolve, Rule } from 'webpack';
+import {
+  Configuration,
+  DefinePlugin,
+  Entry,
+  Plugin,
+  Resolve,
+  Rule
+} from 'webpack';
 
 const ROOT = path.resolve(__dirname, '../');
 const OUTPUT_DESTINATION = path.resolve(ROOT, 'dist');
@@ -84,7 +91,14 @@ const svgLoader = {
 
 const mode = IS_PROD ? 'production' : 'development';
 
-const plugins: Plugin[] = [new AssetsPlugin({ path: ROOT })];
+const plugins: Plugin[] = [
+  new AssetsPlugin({ path: ROOT }),
+  new DefinePlugin({
+    'process.env': {
+      TARGET: JSON.stringify('browser')
+    }
+  })
+];
 
 const tsconfig = path.relative(ROOT, 'tsconfig.json');
 

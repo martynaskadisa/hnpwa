@@ -1,9 +1,11 @@
 import App from 'common/app';
+import configureStore from 'common/store/configure-store';
 import { Context, Middleware } from 'koa';
 import { getLoadableState } from 'loadable-components/server';
 import { chain, compose } from 'ramda';
 import * as React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
+import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import Html from 'server/components/html';
 import { getWebpackAssets } from 'server/utils/webpack';
@@ -44,16 +46,20 @@ const getScripts = (ctx: Context) => {
 export const render: Middleware = async ctx => {
   const scripts = getScripts(ctx);
   const routerCtx = {};
+  const store = configureStore();
   const appWithRouter = (
-    <StaticRouter context={routerCtx} location={ctx.request.url}>
-      <App />
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter context={routerCtx} location={ctx.request.url}>
+        <App />
+      </StaticRouter>
+    </Provider>
   );
 
   const loadableState = await getLoadableState(appWithRouter);
+  const state = store.getState();
 
   const stream = renderToNodeStream(
-    <Html scripts={scripts} app={appWithRouter}>
+    <Html scripts={scripts} app={appWithRouter} state={state}>
       {loadableState.getScriptElement()}
     </Html>
   );

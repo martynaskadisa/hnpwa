@@ -4,12 +4,20 @@ import * as React from 'react';
 interface IProps {
   scripts?: string[];
   app: React.ReactNode;
+  state: object;
 }
 
-const Html: React.SFC<IProps> = ({ scripts = [], children, app }) => (
+const createPreloadedState = (state: object) =>
+  `window.__PRELOADED_STATE__ = ${JSON.stringify(state)}`;
+
+const Html: React.SFC<IProps> = ({ scripts = [], children, app, state }) => (
   <html>
     <head>
       <title>HNPWA</title>
+      <script
+        type="module"
+        dangerouslySetInnerHTML={{ __html: createPreloadedState(state) }}
+      />
       {scripts.map(script => (
         <script key={script} src={script} type="module" />
       ))}

@@ -26,6 +26,7 @@ declare namespace NodeJS {
     NODE_ENV?: 'development' | 'production';
     HOST?: string;
     PORT?: number;
+    TARGET?: 'browser' | 'node';
   }
 }
 

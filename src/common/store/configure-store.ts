@@ -5,7 +5,7 @@ import { AppState } from './types';
 const middleware: Middleware[] = [];
 
 const devTool =
-  window && window.__REDUX_DEVTOOLS_EXTENSION__
+  process.env.TARGET === 'browser' && window.__REDUX_DEVTOOLS_EXTENSION__
     ? window.__REDUX_DEVTOOLS_EXTENSION__()
     : <T>(f: T): T => f;
 
