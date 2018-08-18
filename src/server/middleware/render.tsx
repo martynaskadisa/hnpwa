@@ -22,7 +22,7 @@ const getScripts = (ctx: Context) => {
   const stats: Stats = ctx.state.webpackStats;
 
   if (!stats) {
-    return webpackAssets ? (webpackAssets as any).app.js : [];
+    return webpackAssets ? [(webpackAssets as any).app.js] : [];
   }
 
   const { publicPath, assetsByChunkName } = stats.toJson() as IStatsJSON;

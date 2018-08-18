@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --ignore-watch src/common -r tsconfig-paths/register -P tsconfig.node.json --transpileOnly src/server/index.ts",
+    "start": "ts-node -r tsconfig-paths/register -P tsconfig.node.json --transpileOnly src/server/index.ts",
+    "develop": "ts-node-dev --ignore-watch src/common -r tsconfig-paths/register -P tsconfig.node.json --transpileOnly src/server/index.ts",
     "build": "rimraf dist && cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" webpack --config ./webpack/webpack.config.ts",
     "build:prod": "cross-env NODE_ENV=production yarn build"
   },

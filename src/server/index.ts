@@ -4,11 +4,17 @@ import * as serve from 'koa-static';
 import * as path from 'path';
 import { render } from 'server/middleware/render';
 import { ROOT_DIR } from 'server/utils/path';
-import { watch } from './watcher';
 
-watch();
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
 
 const init = async () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const { watch } = await import('server/watcher');
+
+    watch();
+  }
+
   const app = new Koa();
 
   app.use(mount('/assets', serve(path.join(ROOT_DIR, 'dist'))));
@@ -32,7 +38,7 @@ const init = async () => {
     app.use(render);
   }
 
-  app.listen(3000, 'localhost', () =>
+  app.listen(PORT, HOST, () =>
     // tslint:disable-next-line:no-console
     console.log('Server started on http://localhost:3000')
   );

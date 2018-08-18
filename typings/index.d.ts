@@ -20,3 +20,11 @@ declare module 'loadable-components/server' {
 
   export const getLoadableState: (node: ReactNode) => Promise<LoadableState>;
 }
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    NODE_ENV?: 'development' | 'production';
+    HOST?: string;
+    PORT?: number;
+  }
+}
