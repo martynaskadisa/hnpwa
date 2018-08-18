@@ -3,9 +3,10 @@ import * as React from 'react';
 
 interface IProps {
   scripts?: string[];
+  app: React.ReactNode;
 }
 
-const Html: React.SFC<IProps> = ({ children, scripts = [] }) => (
+const Html: React.SFC<IProps> = ({ scripts = [], children, app }) => (
   <html>
     <head>
       <title>HNPWA</title>
@@ -14,7 +15,8 @@ const Html: React.SFC<IProps> = ({ children, scripts = [] }) => (
       ))}
     </head>
     <body>
-      <div id={ROOT_ID}>{children}</div>
+      <div id={ROOT_ID}>{app}</div>
+      {children}
     </body>
   </html>
 );

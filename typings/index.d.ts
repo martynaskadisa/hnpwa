@@ -9,3 +9,14 @@ declare module '*/react-loadable.json' {
 
   export = content;
 }
+
+declare module 'loadable-components/server' {
+  import { ReactNode } from 'react';
+  interface LoadableState {
+    getScriptTag: () => string;
+    getScriptContent: () => string;
+    getScriptElement: () => string;
+  }
+
+  export const getLoadableState: (node: ReactNode) => Promise<LoadableState>;
+}

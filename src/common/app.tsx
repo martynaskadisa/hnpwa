@@ -1,5 +1,5 @@
-import Home from 'common/scenes/Home';
-import New from 'common/scenes/New';
+import Home from 'common/scenes/home';
+import New from 'common/scenes/new';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { Route, Switch } from 'react-router-dom';

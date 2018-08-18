@@ -1,12 +1,15 @@
 import App from 'common/app';
 import { Context, Middleware } from 'koa';
+import { getLoadableState } from 'loadable-components/server';
 import { chain, compose } from 'ramda';
 import * as React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
-import { MemoryRouter } from 'react-router';
+import { StaticRouter } from 'react-router';
 import Html from 'server/components/html';
+import { getWebpackAssets } from 'server/utils/webpack';
 import { Stats } from 'webpack';
-import * as staticWebpackAssets from '../../../webpack-assets.json';
+
+const webpackAssets = getWebpackAssets();
 
 interface IStatsJSON {
   assetsByChunkName: {
@@ -19,7 +22,7 @@ const getScripts = (ctx: Context) => {
   const stats: Stats = ctx.state.webpackStats;
 
   if (!stats) {
-    return [staticWebpackAssets.app.js];
+    return webpackAssets ? (webpackAssets as any).app.js : [];
   }
 
   const { publicPath, assetsByChunkName } = stats.toJson() as IStatsJSON;
@@ -38,19 +41,23 @@ const getScripts = (ctx: Context) => {
   return scripts;
 };
 
-export const render: Middleware = ctx => {
-  ctx.set('Content-Type', 'text/html');
+export const render: Middleware = async ctx => {
   const scripts = getScripts(ctx);
-
-  const Component = () => (
-    <MemoryRouter>
-      <Html scripts={scripts}>
-        <App />
-      </Html>
-    </MemoryRouter>
+  const routerCtx = {};
+  const appWithRouter = (
+    <StaticRouter context={routerCtx} location={ctx.request.url}>
+      <App />
+    </StaticRouter>
   );
 
-  const stream = renderToNodeStream(<Component />);
+  const loadableState = await getLoadableState(appWithRouter);
 
+  const stream = renderToNodeStream(
+    <Html scripts={scripts} app={appWithRouter}>
+      {loadableState.getScriptElement()}
+    </Html>
+  );
+
+  ctx.set('Content-Type', 'text/html');
   ctx.body = stream;
 };

@@ -1,10 +1,10 @@
-import Empty from 'common/components/empty';
-import { hot } from 'react-hot-loader';
-import * as Loadable from 'react-loadable';
+import Loading from 'common/components/loading';
+import loadable from 'loadable-components';
 
-const loadableComponent = Loadable({
-  loader: () => import(/* webpackChunkName: 'scenes-new' */ './component'),
-  loading: Empty
-} as Loadable.OptionsWithoutRender<any>);
-
-export default hot(module)(loadableComponent);
+export default loadable(
+  () => import(/* webpackChunkName: 'scenes-new' */ './component'),
+  {
+    LoadingComponent: Loading,
+    modules: ['./component']
+  }
+);
