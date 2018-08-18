@@ -1,8 +1,8 @@
-import { applyMiddleware, compose, createStore, Middleware } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import deviceSaga from './modules/device/sagas';
 import reducer from './reducer';
 import { AppState } from './types';
-
-const middleware: Middleware[] = [];
 
 const devTool =
   process.env.TARGET === 'browser' && window.__REDUX_DEVTOOLS_EXTENSION__
@@ -10,12 +10,18 @@ const devTool =
     : <T>(f: T): T => f;
 
 const configureStore = (preloadedState?: AppState) => {
+  const sagaMiddleware = createSagaMiddleware();
+
   const enhancedCreateStore = compose<typeof createStore>(
-    applyMiddleware(...middleware),
+    applyMiddleware(sagaMiddleware),
     devTool
   )(createStore);
 
-  return enhancedCreateStore(reducer, preloadedState!);
+  const store = enhancedCreateStore(reducer, preloadedState!);
+
+  sagaMiddleware.run(deviceSaga);
+
+  return store;
 };
 
 export default configureStore;
