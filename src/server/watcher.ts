@@ -27,4 +27,6 @@ export const watch = (silent = false) => {
       log('---');
     });
   });
+
+  return watcher.close;
 };
