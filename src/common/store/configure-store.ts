@@ -1,9 +1,21 @@
-import { createStore } from 'redux';
+import { applyMiddleware, compose, createStore, Middleware } from 'redux';
+import reducer from './reducer';
+import { AppState } from './types';
 
-const configureStore = (preloadedState: any) => {
-  const store = createStore({} as any, preloadedState);
+const middleware: Middleware[] = [];
 
-  return store;
+const devTool =
+  window && window.__REDUX_DEVTOOLS_EXTENSION__
+    ? window.__REDUX_DEVTOOLS_EXTENSION__()
+    : <T>(f: T): T => f;
+
+const configureStore = (preloadedState?: AppState) => {
+  const enhancedCreateStore = compose<typeof createStore>(
+    applyMiddleware(...middleware),
+    devTool
+  )(createStore);
+
+  return enhancedCreateStore(reducer, preloadedState!);
 };
 
 export default configureStore;
