@@ -1,6 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import deviceSaga from './modules/device/sagas';
 import reducer from './reducer';
 import { AppState } from './types';
 
@@ -19,9 +18,10 @@ const configureStore = (preloadedState?: AppState) => {
 
   const store = enhancedCreateStore(reducer, preloadedState!);
 
-  sagaMiddleware.run(deviceSaga);
-
-  return store;
+  return {
+    ...store,
+    runSaga: sagaMiddleware.run
+  };
 };
 
 export default configureStore;

@@ -40,7 +40,7 @@ const init = async () => {
 
   app.listen(PORT, HOST, () =>
     // tslint:disable-next-line:no-console
-    console.log('Server started on http://localhost:3000')
+    console.log(`Server started on http://${HOST}:${PORT}`)
   );
 };
 

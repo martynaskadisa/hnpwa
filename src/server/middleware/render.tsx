@@ -1,5 +1,6 @@
 import App from 'common/app';
 import configureStore from 'common/store/configure-store';
+import saga from 'common/store/saga';
 import { Context, Middleware } from 'koa';
 import { getLoadableState } from 'loadable-components/server';
 import { chain, compose } from 'ramda';
@@ -47,6 +48,9 @@ export const render: Middleware = async ctx => {
   const scripts = getScripts(ctx);
   const routerCtx = {};
   const store = configureStore();
+
+  store.runSaga(saga);
+
   const appWithRouter = (
     <Provider store={store}>
       <StaticRouter context={routerCtx} location={ctx.request.url}>

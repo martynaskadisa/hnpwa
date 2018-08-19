@@ -9,10 +9,12 @@ import {
   Resolve,
   Rule
 } from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const ROOT = path.resolve(__dirname, '../');
 const OUTPUT_DESTINATION = path.resolve(ROOT, 'dist');
 const IS_PROD = process.env.NODE_ENV === 'production';
+const ANALYZE = process.env.ANALYZE === 'true';
 export const PUBLIC_PATH = '/assets/';
 
 const entry: Entry = {
@@ -99,6 +101,10 @@ const plugins: Plugin[] = [
     }
   })
 ];
+
+if (ANALYZE) {
+  plugins.push(new BundleAnalyzerPlugin());
+}
 
 const tsconfig = path.relative(ROOT, 'tsconfig.json');
 

@@ -12,7 +12,7 @@ const Navbar: React.SFC = () => (
         <Link to={routes.new.path}>new</Link>
       </li>
       <li>
-        <Link to={routes.home.path}>show</Link>
+        <Link to={routes.show.path}>show</Link>
       </li>
     </ul>
   </nav>

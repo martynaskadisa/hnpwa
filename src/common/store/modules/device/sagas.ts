@@ -1,10 +1,10 @@
 import { AppState } from 'common/store/types';
-import { all, put, select, takeEvery } from 'redux-saga/effects';
+import { all, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { setBreakpoint, setOnline } from './actions';
 import { getBreakpoint } from './breakpoint';
 import { createBreakpointChannel, createNetworkChannel } from './channels';
 
-function* detectBreakpoint() {
+export function* detectBreakpoint() {
   if (process.env.TARGET !== 'browser') {
     return;
   }
@@ -19,21 +19,21 @@ function* detectBreakpoint() {
   yield put(setBreakpoint(breakpoint));
 }
 
-function* watchBreakpointChange() {
+export function* watchBreakpointChange() {
   const breakpointChannel = createBreakpointChannel();
 
   yield detectBreakpoint();
   yield takeEvery(breakpointChannel, detectBreakpoint);
 }
 
-function* detectNetworkStatus() {
+export function* detectNetworkStatus() {
   const online =
     process.env.TARGET === 'browser' ? window.navigator.onLine : true;
 
   yield put(setOnline(online));
 }
 
-function* watchNetworkStatus() {
+export function* watchNetworkStatus() {
   const networkChannel = createNetworkChannel();
 
   yield detectNetworkStatus();
@@ -41,7 +41,7 @@ function* watchNetworkStatus() {
 }
 
 function* root() {
-  yield all([watchNetworkStatus(), watchBreakpointChange()]);
+  yield all([fork(watchNetworkStatus), fork(watchBreakpointChange)]);
 }
 
 export default root;
