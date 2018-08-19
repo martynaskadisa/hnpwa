@@ -1,11 +1,13 @@
 import { createReducer, set } from 'common/utils/redux';
 import { combineReducers } from 'redux';
 import {
+  Breakpoint,
+  ServiceWorkerStatus,
   SET_BREAKPOINT,
   SET_ONLINE,
   SET_SERVICE_WORKER_STATUS
 } from './constants';
-import { Breakpoint, IState, ServiceWorkerStatus } from './types';
+import { IState } from './types';
 
 const onlineReducer = createReducer<boolean>(
   {
