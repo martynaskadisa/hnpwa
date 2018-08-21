@@ -1,5 +1,5 @@
 import configureStore from 'common/store/configure-store';
-import { detectNetworkStatus, watchNetworkStatus } from './sagas';
+import { detectNetworkStatus } from './sagas';
 
 const setOnline = (value: boolean) =>
   Object.defineProperty(window.navigator, 'onLine', {

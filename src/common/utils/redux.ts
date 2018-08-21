@@ -6,7 +6,7 @@ export interface IAction<T> {
 export type Reducer<S, P> = (state: S, action: IAction<P>) => S;
 
 export const createActionCreator = <P = any>(type: string) => (
-  payload: P
+  payload?: P
 ): IAction<P> => ({ type, payload });
 
 interface IReducersMap<S> {
