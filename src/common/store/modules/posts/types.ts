@@ -8,7 +8,7 @@ export interface IPost {
   user: string;
   time: number;
   time_ago: string;
-  comments_count: number;
+  commentsCount: number;
   type: string;
   url: string;
   domain: string;

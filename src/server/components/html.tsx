@@ -19,7 +19,7 @@ const Html: React.SFC<IProps> = ({ scripts = [], children, app, state }) => (
         dangerouslySetInnerHTML={{ __html: createPreloadedState(state) }}
       />
       {scripts.map(script => (
-        <script key={script} src={script} type="module" />
+        <script key={script} src={script} async={true} type="module" />
       ))}
     </head>
     <body>

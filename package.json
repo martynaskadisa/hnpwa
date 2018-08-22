@@ -36,6 +36,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "loadable-components": "^2.2.3",
+    "node-fetch": "^2.2.0",
     "ramda": "^0.25.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -56,6 +57,7 @@
     "@types/koa-mount": "^3.0.1",
     "@types/koa-static": "^4.0.0",
     "@types/koa-webpack": "^5.0.1",
+    "@types/node-fetch": "^2.1.2",
     "@types/ramda": "^0.25.36",
     "@types/react": "^16.4.11",
     "@types/react-dom": "^16.0.7",
@@ -87,5 +89,6 @@
     "webpack": "^4.16.5",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0"
-  }
+  },
+  "sideEffects": false
 }

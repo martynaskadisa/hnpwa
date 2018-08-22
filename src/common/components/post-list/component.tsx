@@ -1,3 +1,4 @@
+import Post from 'common/components/post';
 import { noop } from 'common/utils/noop';
 import * as React from 'react';
 
@@ -19,7 +20,7 @@ class PostList extends React.Component<IProps> {
     return (
       <>
         {ids.map(id => (
-          <div>{id}</div>
+          <Post key={id} id={id} />
         ))}
       </>
     );

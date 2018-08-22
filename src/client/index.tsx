@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 const preloadedState = window.__PRELOADED_STATE__;
 const store = configureStore(preloadedState);
 
-import(/* webpackChunkName: 'saga' */ 'common/store/saga').then(
+import(/* webpackChunkName: 'saga', webpackPrefetch: true */ 'common/store/saga').then(
   ({ default: saga }) => store.runSaga(saga)
 );
 

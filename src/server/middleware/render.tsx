@@ -1,5 +1,6 @@
 import App from 'common/app';
 import configureStore from 'common/store/configure-store';
+import { fetchPosts } from 'common/store/modules/posts/sagas';
 import saga from 'common/store/saga';
 import { Context, Middleware } from 'koa';
 import { getLoadableState } from 'loadable-components/server';
@@ -58,6 +59,10 @@ export const render: Middleware = async ctx => {
       </StaticRouter>
     </Provider>
   );
+
+  const page = 1;
+
+  await store.runSaga(fetchPosts, { type: '', payload: page }).done;
 
   const loadableState = await getLoadableState(appWithRouter);
   const state = store.getState();
