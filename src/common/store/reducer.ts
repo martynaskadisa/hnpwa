@@ -1,10 +1,17 @@
+import { connectRouter } from 'connected-react-router';
+import { History } from 'history';
 import { combineReducers } from 'redux';
 import device from './modules/device/reducer';
 import posts from './modules/posts/reducer';
+import response from './modules/response/reducer';
 
-const reducer = combineReducers({
-  device,
-  posts
-});
+const createReducer = (history: History) =>
+  connectRouter(history)(
+    combineReducers({
+      device,
+      posts,
+      response
+    })
+  );
 
-export default reducer;
+export default createReducer;

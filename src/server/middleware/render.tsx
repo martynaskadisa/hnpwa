@@ -1,7 +1,7 @@
 import App from 'common/app';
 import configureStore from 'common/store/configure-store';
-import { fetchPosts } from 'common/store/modules/posts/sagas';
 import saga from 'common/store/saga';
+import createMemoryHistory from 'history/createMemoryHistory';
 import { Context, Middleware } from 'koa';
 import { getLoadableState } from 'loadable-components/server';
 import { chain, compose } from 'ramda';
@@ -48,11 +48,10 @@ const getScripts = (ctx: Context) => {
 export const render: Middleware = async ctx => {
   const scripts = getScripts(ctx);
   const routerCtx = {};
-  const store = configureStore();
+  const history = createMemoryHistory({ initialEntries: [ctx.request.url] });
+  const store = configureStore(history);
 
-  store.runSaga(saga);
-
-  const appWithRouter = (
+  const app = (
     <Provider store={store}>
       <StaticRouter context={routerCtx} location={ctx.request.url}>
         <App />
@@ -60,18 +59,20 @@ export const render: Middleware = async ctx => {
     </Provider>
   );
 
-  const page = 1;
+  const task = store.runSaga(saga);
 
-  await store.runSaga(fetchPosts, { type: '', payload: page }).done;
+  await task.done;
 
-  const loadableState = await getLoadableState(appWithRouter);
+  const loadableState = await getLoadableState(app);
   const state = store.getState();
 
   const stream = renderToNodeStream(
-    <Html scripts={scripts} app={appWithRouter} state={state}>
+    <Html scripts={scripts} app={app} state={state}>
       {loadableState.getScriptElement()}
     </Html>
   );
+
+  ctx.status = state.response.statusCode;
 
   ctx.set('Content-Type', 'text/html');
   ctx.body = stream;

@@ -1,5 +1,8 @@
 import configureStore from 'common/store/configure-store';
+import createMemoryHistory from 'history/createMemoryHistory';
 import { detectNetworkStatus } from './sagas';
+
+const history = createMemoryHistory();
 
 const setOnline = (value: boolean) =>
   Object.defineProperty(window.navigator, 'onLine', {
@@ -18,7 +21,7 @@ describe('device sagas', () => {
 
       it('should set online to true when `window.navigator.onLine` is true', () => {
         setOnline(true);
-        const store = configureStore({ device: { online: false } });
+        const store = configureStore(history, { device: { online: false } });
 
         store.runSaga(detectNetworkStatus);
 
@@ -29,7 +32,7 @@ describe('device sagas', () => {
 
       it('should set online to false when `window.navigator.onLine` is false', () => {
         setOnline(false);
-        const store = configureStore({ device: { online: true } });
+        const store = configureStore(history, { device: { online: true } });
 
         store.runSaga(detectNetworkStatus);
 
@@ -43,7 +46,7 @@ describe('device sagas', () => {
       beforeAll(() => (process.env.TARGET = 'node'));
 
       it('should always return true', () => {
-        const store = configureStore({ device: { online: false } });
+        const store = configureStore(history, { device: { online: false } });
 
         store.runSaga(detectNetworkStatus);
 

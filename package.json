@@ -30,7 +30,9 @@
     ]
   },
   "dependencies": {
+    "connected-react-router": "^4.4.1",
     "cross-env": "^5.2.0",
+    "history": "^4.7.2",
     "koa": "^2.5.2",
     "koa-mount": "^3.0.0",
     "koa-router": "^7.4.0",
@@ -51,6 +53,7 @@
     "@types/assets-webpack-plugin": "^3.5.1",
     "@types/chalk": "^2.2.0",
     "@types/chokidar": "^1.7.5",
+    "@types/history": "^4.7.0",
     "@types/html-webpack-plugin": "^3.2.0",
     "@types/jest": "^23.3.1",
     "@types/koa": "^2.0.46",

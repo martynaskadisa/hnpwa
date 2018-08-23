@@ -1,14 +1,16 @@
 import App from 'common/app';
 import { ROOT_ID } from 'common/constants';
 import configureStore from 'common/store/configure-store';
+import { ConnectedRouter } from 'connected-react-router';
+import createBrowserHistory from 'history/createBrowserHistory';
 import { loadComponents } from 'loadable-components';
 import * as React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 
+const history = createBrowserHistory();
 const preloadedState = window.__PRELOADED_STATE__;
-const store = configureStore(preloadedState);
+const store = configureStore(history, preloadedState);
 
 import(/* webpackChunkName: 'saga', webpackPrefetch: true */ 'common/store/saga').then(
   ({ default: saga }) => store.runSaga(saga)
@@ -16,9 +18,9 @@ import(/* webpackChunkName: 'saga', webpackPrefetch: true */ 'common/store/saga'
 
 const Component: React.SFC = () => (
   <Provider store={store}>
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <App />
-    </BrowserRouter>
+    </ConnectedRouter>
   </Provider>
 );
 

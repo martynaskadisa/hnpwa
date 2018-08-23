@@ -1,11 +1,20 @@
+import { matchPath } from 'react-router-dom';
+
+const HOME = '/';
+const NEWEST = '/newest';
+const SHOW = '/show';
+
 export const routes = {
   home: {
-    path: '/'
+    path: HOME,
+    match: (url: string) => matchPath(url, { path: HOME, exact: true })
   },
   new: {
-    path: '/newest'
+    path: NEWEST,
+    match: (url: string) => matchPath(url, { path: NEWEST })
   },
   show: {
-    path: '/show'
+    path: SHOW,
+    match: (url: string) => matchPath(url, { path: SHOW })
   }
 };

@@ -4,12 +4,6 @@ declare module '*/webpack-assets.json' {
   export = content;
 }
 
-declare module '*/react-loadable.json' {
-  const content: any;
-
-  export = content;
-}
-
 declare module 'loadable-components/server' {
   import { ReactNode } from 'react';
   interface LoadableState {
