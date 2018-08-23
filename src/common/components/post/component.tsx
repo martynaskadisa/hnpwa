@@ -1,24 +1,29 @@
 import * as React from 'react';
 
 export interface IProps {
-  points: number;
+  rank?: number | null;
   title: string;
   author: string;
   commentCount: number;
   timeAgo: string;
+  points: number;
+  href: string;
 }
 
 const Post: React.SFC<IProps> = ({
-  points,
+  rank,
   title,
   commentCount,
   author,
-  timeAgo
+  timeAgo,
+  href
 }) => (
-  <div>
-    <div>{points}</div>
+  <div style={{ display: 'flex', alignItems: 'center', padding: '1em' }}>
+    <div>{rank}</div>
     <div>
-      <div>{title}</div>
+      <a target="_blank" href={href}>
+        {title}
+      </a>
       <div>
         <div>by {author}</div>
         <div>{timeAgo}</div>
