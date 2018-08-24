@@ -1,7 +1,7 @@
 import Navbar from 'common/components/navbar/component';
 import New from 'common/scenes/new';
 import NotFound from 'common/scenes/not-found';
-import Top from 'common/scenes/Top';
+import Top from 'common/scenes/top';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { Redirect, Route, Switch } from 'react-router-dom';
