@@ -17,7 +17,19 @@ const init = async () => {
 
   const app = new Koa();
 
-  app.use(mount('/assets', serve(path.join(ROOT_DIR, 'dist'))));
+  app.use(
+    mount(
+      '/assets',
+      serve(path.join(ROOT_DIR, 'dist'), {
+        setHeaders(res) {
+          res.setHeader(
+            'Cache-Control',
+            'max-age=60, s-maxage=86400, immutable'
+          );
+        }
+      })
+    )
+  );
 
   if (process.env.NODE_ENV !== 'production') {
     const {
