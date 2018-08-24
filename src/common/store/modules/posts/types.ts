@@ -14,8 +14,13 @@ export interface IPost {
   domain: string;
 }
 
+export interface IdsByPage {
+  [page: string]: string[] | undefined;
+}
+
 export interface IState {
   status: Status;
   byId: IById<IPost>;
-  ids: string[];
+  page: number;
+  idsByPage: IdsByPage;
 }

@@ -32,3 +32,8 @@ export const setByKey = <S, T extends ISetByKeyActionPayload<any> = any>(
   key: string
 ) => (state: S, action: IAction<T>): S =>
   action.payload!.key === key ? action.payload!.value : state;
+
+export const update = <T>(state: T, action: IAction<T>): T => ({
+  ...(state as any),
+  ...(action.payload as any)
+});

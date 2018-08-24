@@ -1,26 +1,31 @@
 import { getNews } from 'common/api/news';
-import { IAction } from 'common/utils/redux';
-import { call, fork, put, takeLatest } from 'redux-saga/effects';
-import { setById, setIds, setStatus } from './actions';
+import { AppState } from 'common/store/types';
+import { call, fork, put, select, take } from 'redux-saga/effects';
+import { setById, setStatus, updateIdsByPage } from './actions';
 import { FETCH_POSTS, Status } from './constants';
 import { extractIds, normalizePosts } from './transformers';
 
-export function* fetchPosts(action: Partial<IAction<number>> = { payload: 1 }) {
+export function* fetchPosts(page = 1) {
   yield put(setStatus(Status.Fetching));
-
-  const page = action.payload;
 
   const posts = yield call(getNews, page);
   const byId = normalizePosts(posts);
   const ids = extractIds(posts);
 
   yield put(setById(byId));
-  yield put(setIds(ids));
+  yield put(updateIdsByPage({ [page]: ids }));
   yield put(setStatus(Status.Idle));
 }
 
 function* watchFetchRequests() {
-  yield takeLatest(FETCH_POSTS, fetchPosts);
+  while (true) {
+    yield take(FETCH_POSTS);
+    const {
+      posts: { page }
+    }: AppState = yield select();
+
+    yield call(fetchPosts, page);
+  }
 }
 
 export default function* rootSaga() {

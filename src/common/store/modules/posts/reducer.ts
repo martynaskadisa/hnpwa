@@ -1,21 +1,27 @@
-import { createReducer, set } from 'common/utils/redux';
+import { createReducer, set, update } from 'common/utils/redux';
 import { combineReducers } from 'redux';
 import { IById } from '../../../utils/types';
-import { SET_BY_ID, SET_IDS, SET_STATUS, Status } from './constants';
-import { IPost, IState } from './types';
-
-const idsReducer = createReducer<string[]>(
-  {
-    [SET_IDS]: set
-  },
-  []
-);
+import {
+  SET_BY_ID,
+  SET_PAGE,
+  SET_STATUS,
+  Status,
+  UPDATE_IDS_BY_PAGE
+} from './constants';
+import { IdsByPage, IPost, IState } from './types';
 
 const byIdReducer = createReducer<IById<IPost>>(
   {
     [SET_BY_ID]: set
   },
   {}
+);
+
+const pageReducer = createReducer<number>(
+  {
+    [SET_PAGE]: set
+  },
+  1
 );
 
 const statusReducer = createReducer<Status>(
@@ -25,8 +31,16 @@ const statusReducer = createReducer<Status>(
   Status.Idle
 );
 
+const idsByPageReducer = createReducer<IdsByPage>(
+  {
+    [UPDATE_IDS_BY_PAGE]: update
+  },
+  {}
+);
+
 export default combineReducers<IState>({
-  ids: idsReducer,
+  page: pageReducer,
+  idsByPage: idsByPageReducer,
   byId: byIdReducer,
   status: statusReducer
 });

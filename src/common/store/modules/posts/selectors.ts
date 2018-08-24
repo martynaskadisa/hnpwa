@@ -1,4 +1,5 @@
 import { AppState } from 'common/store/types';
+import { createSelector } from 'reselect';
 
 interface IProps {
   id: string;
@@ -7,15 +8,12 @@ interface IProps {
 export const getPostById = (state: AppState, { id }: IProps) =>
   state.posts.byId[id];
 
-export const getPostRankById = (
-  state: AppState,
-  { id }: IProps
-): number | null => {
-  const index = state.posts.ids.findIndex(x => x === id);
+export const getIds = createSelector(
+  (state: AppState) => state.posts.idsByPage,
+  (state: AppState) => state.posts.page,
+  (idsByPage, page) => idsByPage[page] || []
+);
 
-  if (index === -1) {
-    return null;
-  }
-
-  return index + 1;
-};
+export const getNextPage = (state: AppState) => state.posts.page + 1;
+export const getPrevPage = (state: AppState) =>
+  state.posts.page > 1 ? state.posts.page - 1 : null;
