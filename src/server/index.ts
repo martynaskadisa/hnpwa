@@ -31,6 +31,14 @@ const init = async () => {
     )
   );
 
+  app.use(
+    serve(path.join(ROOT_DIR, 'public'), {
+      setHeaders(res) {
+        res.setHeader('Cache-Control', 'max-age=60, s-maxage=86400');
+      }
+    })
+  );
+
   if (process.env.NODE_ENV !== 'production') {
     const {
       createWebpackMiddleware
