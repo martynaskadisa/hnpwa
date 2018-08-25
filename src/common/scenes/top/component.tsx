@@ -6,8 +6,11 @@ import PrevPageLink from '../../components/prev-page-link';
 const Top: React.SFC = () => (
   <div>
     <PostList />
-    <PrevPageLink />
-    <NextPageLink />
+    <div>
+      <PrevPageLink />
+      <span> | </span>
+      <NextPageLink />
+    </div>
   </div>
 );
 

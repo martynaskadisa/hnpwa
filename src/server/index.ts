@@ -24,7 +24,7 @@ const init = async () => {
         setHeaders(res) {
           res.setHeader(
             'Cache-Control',
-            'max-age=60, s-maxage=86400, immutable'
+            'max-age=31536000, s-maxage=31536000, immutable'
           );
         }
       })

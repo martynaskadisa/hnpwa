@@ -20,7 +20,7 @@ const Post: React.SFC<IProps> = ({
   <div style={{ display: 'flex', alignItems: 'center', padding: '1em' }}>
     <div>{points}</div>
     <div>
-      <a target="_blank" href={href}>
+      <a target="_blank" rel="noopener" href={href}>
         {title}
       </a>
       <div>
