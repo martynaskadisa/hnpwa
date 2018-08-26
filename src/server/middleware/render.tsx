@@ -75,6 +75,6 @@ export const render: Middleware = async ctx => {
   ctx.status = state.response.statusCode;
 
   ctx.set('Content-Type', 'text/html');
-  ctx.set('Cache-Control', 'max-age=60, s-maxage=86400');
+  ctx.set('Cache-Control', 'max-age=300, s-maxage=86400');
   ctx.body = stream;
 };

@@ -1,6 +1,6 @@
 {
   "name": "hnpwa",
-  "alias": "hnpwa",
+  "alias": "hnpwa.now.sh",
   "type": "docker",
   "public": true
 }

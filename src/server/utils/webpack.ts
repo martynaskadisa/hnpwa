@@ -1,7 +1,6 @@
 export const getWebpackAssets = (): object | null => {
   try {
-    const assets = require('../../../webpack-assets.json');
-    return assets;
+    return require('../../../webpack-assets.json');
   } catch {
     return null;
   }

@@ -1,5 +1,11 @@
 declare module '*/webpack-assets.json' {
-  const content: any;
+  interface Assets {
+    [chunkName: string]: {
+      js: string;
+    }
+  }
+
+  const content: Assets;
 
   export = content;
 }
