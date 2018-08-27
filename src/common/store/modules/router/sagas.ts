@@ -7,20 +7,20 @@ import { AppState } from 'common/store/types';
 import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
 
-function* handleRouteChange() {
-  const { router }: AppState = yield select();
-
-  const topMatch = routes.top.match(router.location.pathname);
-
-  if (topMatch) {
-    const page = parseInt(topMatch.params.page, 10);
-    yield put(setPage(page));
-    yield put(fetchPosts());
-  }
+function* watchRouteChanges() {
+  yield takeEvery(LOCATION_CHANGE, applyRouteEffects);
 }
 
-function* watchRouteChanges() {
-  yield takeEvery(LOCATION_CHANGE, handleRouteChange);
+function* applyHomeRouteEffects() {
+  const page = 1;
+  yield put(replace(routes.top.generatePath(page)));
+  yield put(setPage(page));
+
+  if (process.env.TARGET === 'browser') {
+    yield put(fetchPosts());
+  } else {
+    yield call(fetchPostsSaga, page);
+  }
 }
 
 function* applyTopRouteEffects() {
@@ -34,7 +34,12 @@ function* applyTopRouteEffects() {
 
   const page = parseInt(match.params.page, 10);
   yield put(setPage(page));
-  yield call(fetchPostsSaga, page);
+
+  if (process.env.TARGET === 'browser') {
+    yield put(fetchPosts());
+  } else {
+    yield call(fetchPostsSaga, page);
+  }
 }
 
 function* applyNotFoundRouteEffects() {
@@ -49,7 +54,7 @@ function* applyRouteEffects() {
   }: AppState = yield select();
 
   if (routes.home.match(pathname)) {
-    return yield put(replace(routes.top.generatePath(1)));
+    return yield fork(applyHomeRouteEffects);
   }
 
   if (routes.top.match(pathname)) {
