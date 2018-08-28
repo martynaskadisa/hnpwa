@@ -17,16 +17,29 @@ const Post: React.SFC<IProps> = ({
   href,
   points
 }) => (
-  <div style={{ display: 'flex', alignItems: 'center', padding: '1em' }}>
-    <div>{points}</div>
+  <div style={{ display: 'flex', alignItems: 'center', padding: '.5em' }}>
+    <div
+      style={{
+        padding: '.5em',
+        width: '3em',
+        display: 'flex',
+        justifyContent: 'center',
+        color: '#828282'
+      }}
+    >
+      {points}
+    </div>
     <div>
-      <a target="_blank" rel="noopener" href={href}>
+      <a
+        target="_blank"
+        rel="noopener"
+        href={href}
+        style={{ color: '#000', textDecoration: 'none' }}
+      >
         {title}
       </a>
-      <div>
-        <div>by {author}</div>
-        <div>{timeAgo}</div>
-        <div>{commentCount} comments</div>
+      <div style={{ display: 'flex', fontSize: '0.9em', color: '#828282' }}>
+        by {author} {timeAgo} | {commentCount} comments
       </div>
     </div>
   </div>
