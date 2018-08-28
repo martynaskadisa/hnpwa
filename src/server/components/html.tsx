@@ -29,6 +29,8 @@ const Html: React.SFC<IProps> = ({ scripts = [], children, app, state }) => (
       {scripts.map(script => (
         <script key={script} src={script} async={true} type="module" />
       ))}
+      <style
+      >{`html{box-sizing:border-box}*,*:before,*:after{box-sizing: inherit}body{margin:0;font-family:sans-serif}`}</style>
     </head>
     <body>
       <div id={ROOT_ID}>{app}</div>
