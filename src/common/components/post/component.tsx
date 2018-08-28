@@ -18,16 +18,17 @@ const Post: React.SFC<IProps> = ({
   points
 }) => (
   <div style={{ display: 'flex', alignItems: 'center', padding: '.5em' }}>
-    <div
-      style={{
-        padding: '.5em',
-        width: '3em',
-        display: 'flex',
-        justifyContent: 'center',
-        color: '#828282'
-      }}
-    >
-      {points}
+    <div>
+      <div
+        style={{
+          width: '3em',
+          display: 'flex',
+          justifyContent: 'center',
+          color: '#828282'
+        }}
+      >
+        {points}
+      </div>
     </div>
     <div>
       <a
