@@ -5,14 +5,14 @@ import { Status } from './constants';
 export interface IPost {
   id: number;
   title: string;
-  points: number;
-  user: string;
+  points: number | null;
+  user: string | null;
   time: number;
   time_ago: string;
   commentsCount: number;
   type: ItemType;
-  url: string;
-  domain: string;
+  url?: string;
+  domain?: string;
 }
 
 export interface IdsByPage {
