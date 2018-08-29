@@ -1,3 +1,4 @@
+import { ItemType } from 'common/api/types';
 import { IById } from 'common/utils/types';
 import { Status } from './constants';
 
@@ -9,7 +10,7 @@ export interface IPost {
   time: number;
   time_ago: string;
   commentsCount: number;
-  type: string;
+  type: ItemType;
   url: string;
   domain: string;
 }

@@ -4,6 +4,7 @@ const HOME = '/';
 const TOP = '/top/:page';
 const NEWEST = '/newest';
 const SHOW = '/show';
+const ITEM = '/item/:id';
 
 export const routes = {
   home: {
@@ -22,5 +23,10 @@ export const routes = {
   show: {
     path: SHOW,
     match: (url: string) => matchPath(url, { path: SHOW })
+  },
+  item: {
+    path: ITEM,
+    match: (url: string) => matchPath<{ id: string }>(url, { path: ITEM }),
+    generatePath: (id: string) => `/item/${id}`
   }
 };

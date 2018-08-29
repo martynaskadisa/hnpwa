@@ -1,4 +1,10 @@
-export interface IPostJSON {
+export enum ItemType {
+  Link = 'link',
+  Ask = 'ask',
+  Job = 'job'
+}
+
+export interface IFeedItem {
   id: number;
   title: string;
   points: number;
@@ -6,7 +12,7 @@ export interface IPostJSON {
   time: number;
   time_ago: string;
   comments_count: number;
-  type: string;
+  type: ItemType;
   url: string;
   domain: string;
 }

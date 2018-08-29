@@ -1,8 +1,8 @@
-import { IPostJSON } from 'common/api/types';
+import { IFeedItem } from 'common/api/types';
 import { IById } from 'common/utils/types';
 import { IPost } from './types';
 
-export const normalizePosts = (posts: IPostJSON[]): IById<IPost> =>
+export const normalizePosts = (posts: IFeedItem[]): IById<IPost> =>
   posts.reduce(
     (byId, post) => {
       const { comments_count: commentsCount, ...rest } = post;
@@ -14,5 +14,5 @@ export const normalizePosts = (posts: IPostJSON[]): IById<IPost> =>
     {} as IById<IPost>
   );
 
-export const extractIds = (posts: IPostJSON[]): string[] =>
+export const extractIds = (posts: IFeedItem[]): string[] =>
   posts.map(post => post.id.toString());

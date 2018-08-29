@@ -1,17 +1,16 @@
 import { withVisibility } from 'common/hocs/withVisibility';
+import { routes } from 'common/routes';
 import { getPostById } from 'common/store/modules/posts/selectors';
 import { AppState } from 'common/store/types';
 import { connect } from 'react-redux';
-import Post from './component';
+import CommentCount from './component';
 
 interface IOwnProps {
   id: string;
 }
 
 const mapStateToProps = (state: AppState, { id }: IOwnProps) => {
-  const post = getPostById(state, {
-    id
-  });
+  const post = getPostById(state, { id });
 
   if (!post) {
     return {
@@ -21,11 +20,13 @@ const mapStateToProps = (state: AppState, { id }: IOwnProps) => {
 
   return {
     isVisible: true,
-    author: post.user,
-    points: post.points,
-    timeAgo: post.time_ago,
-    title: post.title
+    to: routes.item.generatePath(id),
+    children: `${post.commentsCount} comments`
   };
 };
 
-export default connect(mapStateToProps)(withVisibility(Post));
+export default connect(
+  mapStateToProps,
+  undefined,
+  stateProps => stateProps
+)(withVisibility(CommentCount));

@@ -1,22 +1,16 @@
+import PostLink from 'common/components/post-link';
 import * as React from 'react';
+import CommentCount from '../comment-count';
 
 export interface IProps {
   title: string;
   author: string;
-  commentCount: number;
   timeAgo: string;
   points: number;
-  href: string;
+  id: string;
 }
 
-const Post: React.SFC<IProps> = ({
-  title,
-  commentCount,
-  author,
-  timeAgo,
-  href,
-  points
-}) => (
+const Post: React.SFC<IProps> = ({ title, author, timeAgo, points, id }) => (
   <div style={{ display: 'flex', alignItems: 'center', padding: '.5em' }}>
     <div>
       <div
@@ -31,16 +25,10 @@ const Post: React.SFC<IProps> = ({
       </div>
     </div>
     <div>
-      <a
-        target="_blank"
-        rel="noopener"
-        href={href}
-        style={{ color: '#000', textDecoration: 'none' }}
-      >
-        {title}
-      </a>
+      <PostLink id={id}>{title}</PostLink>
       <div style={{ display: 'flex', fontSize: '0.9em', color: '#828282' }}>
-        by {author} {timeAgo} | {commentCount} comments
+        by {author} {timeAgo} |&nbsp;
+        <CommentCount id={id} />
       </div>
     </div>
   </div>

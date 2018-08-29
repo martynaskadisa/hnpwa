@@ -1,4 +1,5 @@
 import { getNews } from 'common/api/news';
+import { IFeedItem } from 'common/api/types';
 import { AppState } from 'common/store/types';
 import { call, fork, put, select, take } from 'redux-saga/effects';
 import { setById, setStatus, updateIdsByPage } from './actions';
@@ -8,7 +9,7 @@ import { extractIds, normalizePosts } from './transformers';
 export function* fetchPosts(page = 1) {
   yield put(setStatus(Status.Fetching));
 
-  const posts = yield call(getNews, page);
+  const posts: IFeedItem[] = yield call(getNews, page);
   const byId = normalizePosts(posts);
   const ids = extractIds(posts);
 

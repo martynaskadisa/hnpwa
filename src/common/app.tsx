@@ -1,4 +1,5 @@
 import Navbar from 'common/components/navbar/component';
+import item from 'common/scenes/item';
 import New from 'common/scenes/new';
 import NotFound from 'common/scenes/not-found';
 import Top from 'common/scenes/top';
@@ -14,6 +15,7 @@ const App: React.SFC = () => (
       <Route from={routes.home.path} exact={true} component={Top} />
       <Route path={routes.top.path} component={Top} />
       <Route path={routes.new.path} component={New} />
+      <Route path={routes.item.path} component={item} />
       <Route component={NotFound} />
     </Switch>
   </>
