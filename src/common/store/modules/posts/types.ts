@@ -8,11 +8,15 @@ export interface IPost {
   points: number | null;
   user: string | null;
   time: number;
-  time_ago: string;
+  timeAgo: string;
   commentsCount: number;
   type: ItemType;
   url?: string;
   domain?: string;
+  content?: string;
+  deleted?: boolean;
+  dead?: boolean;
+  level?: number;
 }
 
 export interface IdsByPage {
