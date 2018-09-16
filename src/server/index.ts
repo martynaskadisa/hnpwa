@@ -5,7 +5,7 @@ import * as path from 'path';
 import { render } from 'server/middleware/render';
 import { ROOT_DIR } from 'server/utils/path';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const init = async () => {
