@@ -7,12 +7,14 @@ import {
   SET_PAGE,
   SET_STATUS,
   Status,
+  UPDATE_BY_ID,
   UPDATE_IDS_BY_PAGE
 } from './constants';
 import { IdsByPage, IPost } from './types';
 
 export const setPage = createActionCreator<number>(SET_PAGE);
 export const setById = createActionCreator<IById<IPost>>(SET_BY_ID);
+export const updateById = createActionCreator<IById<IPost>>(UPDATE_BY_ID);
 export const fetchPosts = createActionCreator<never>(FETCH_POSTS);
 export const fetchPost = createActionCreator<string>(FETCH_POST);
 export const setStatus = createActionCreator<Status>(SET_STATUS);

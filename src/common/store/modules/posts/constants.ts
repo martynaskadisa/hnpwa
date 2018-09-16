@@ -1,4 +1,5 @@
 export const SET_BY_ID = 'posts/SET_BY_ID';
+export const UPDATE_BY_ID = 'posts/UPDATE_BY_ID';
 export const FETCH_POSTS = 'posts/FETCH_POSTS';
 export const FETCH_POST = 'posts/FETCH_POST';
 export const SET_STATUS = 'posts/SET_STATUS';
