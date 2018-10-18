@@ -8,6 +8,7 @@ import {
   SET_STATUS,
   Status,
   UPDATE_BY_ID,
+  UPDATE_COMMENT_IDS_BY_ID,
   UPDATE_IDS_BY_PAGE
 } from './constants';
 import { IdsByPage, IPost } from './types';
@@ -21,3 +22,6 @@ export const setStatus = createActionCreator<Status>(SET_STATUS);
 export const updateIdsByPage = createActionCreator<IdsByPage>(
   UPDATE_IDS_BY_PAGE
 );
+export const updateCommentIdsById = createActionCreator<
+  Record<string, string[]>
+>(UPDATE_COMMENT_IDS_BY_ID);

@@ -7,6 +7,7 @@ import {
   SET_STATUS,
   Status,
   UPDATE_BY_ID,
+  UPDATE_COMMENT_IDS_BY_ID,
   UPDATE_IDS_BY_PAGE
 } from './constants';
 import { IdsByPage, IPost, IState } from './types';
@@ -40,9 +41,17 @@ const idsByPageReducer = createReducer<IdsByPage>(
   {}
 );
 
+const commentIdsByIdReducer = createReducer<Record<string, string[]>>(
+  {
+    [UPDATE_COMMENT_IDS_BY_ID]: update
+  },
+  {}
+);
+
 export default combineReducers<IState>({
   page: pageReducer,
   idsByPage: idsByPageReducer,
   byId: byIdReducer,
-  status: statusReducer
+  status: statusReducer,
+  commentIdsById: commentIdsByIdReducer
 });

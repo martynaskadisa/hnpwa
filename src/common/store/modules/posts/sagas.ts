@@ -4,9 +4,19 @@ import { IFeedItem, Item } from 'common/api/types';
 import { AppState } from 'common/store/types';
 import { IAction } from 'common/utils/redux';
 import { call, fork, put, select, take } from 'redux-saga/effects';
-import { setStatus, updateById, updateIdsByPage } from './actions';
+import {
+  setStatus,
+  updateById,
+  updateCommentIdsById,
+  updateIdsByPage
+} from './actions';
 import { FETCH_POST, FETCH_POSTS, Status } from './constants';
-import { extractIds, normalizeItem, normalizePosts } from './transformers';
+import {
+  extractIds,
+  normalizeComments,
+  normalizeItem,
+  normalizePosts
+} from './transformers';
 
 export function* fetchPosts(page = 1) {
   yield put(setStatus(Status.Fetching));
@@ -23,8 +33,10 @@ export function* fetchPosts(page = 1) {
 export function* fetchPost(id: string) {
   const item: Item = yield call(getItem, id);
   const post = normalizeItem(item);
+  const { byId, idsByItemId } = normalizeComments(item);
 
-  yield put(updateById({ [post.id]: post }));
+  yield put(updateById({ [post.id]: post, ...byId }));
+  yield put(updateCommentIdsById(idsByItemId));
 }
 
 function* watchFetchPostRequests() {

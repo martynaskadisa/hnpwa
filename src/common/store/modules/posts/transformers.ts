@@ -26,7 +26,27 @@ export const normalizePosts = (posts: IFeedItem[]): IById<IPost> =>
 
       return byId;
     },
-    {} as IById<IPost>
+    {} as Record<string, IPost>
+  );
+
+interface INormalizeCommentsReturn {
+  byId: IById<IPost>;
+  idsByItemId: Record<string, string[]>;
+}
+
+export const normalizeComments = (item: Item): INormalizeCommentsReturn =>
+  item.comments.reduce(
+    ({ byId, idsByItemId }, comment) => {
+      byId[comment.id] = normalizeItem(comment);
+      idsByItemId[comment.id] = comment.comments.map(x => x.id.toString());
+
+      const next = normalizeComments(comment);
+      return {
+        byId: { ...byId, ...next.byId },
+        idsByItemId: { ...idsByItemId, ...next.idsByItemId }
+      };
+    },
+    { byId: {}, idsByItemId: {} } as INormalizeCommentsReturn
   );
 
 export const extractIds = (posts: IFeedItem[]): string[] =>
