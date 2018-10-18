@@ -10,6 +10,8 @@ export default connect((state: AppState, { id }: IOwnProps) => {
   const item = state.posts.byId[id];
 
   return {
-    content: item.content
+    content: item.content,
+    author: item.user,
+    timeAgo: item.timeAgo
   };
 })(Comment);
