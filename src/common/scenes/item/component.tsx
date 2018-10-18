@@ -1,3 +1,4 @@
+import CommentList from 'common/components/comment-list';
 import Post from 'common/components/post';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -11,6 +12,7 @@ const Item: React.SFC<Props> = ({
 }) => (
   <div>
     <Post id={id} />
+    <CommentList id={id} />
   </div>
 );
 

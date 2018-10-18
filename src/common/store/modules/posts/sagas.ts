@@ -33,10 +33,11 @@ export function* fetchPosts(page = 1) {
 export function* fetchPost(id: string) {
   const item: Item = yield call(getItem, id);
   const post = normalizeItem(item);
+  const commentIdsByPostId = { [post.id]: item.comments.map(x => x.id) };
   const { byId, idsByItemId } = normalizeComments(item);
 
   yield put(updateById({ [post.id]: post, ...byId }));
-  yield put(updateCommentIdsById(idsByItemId));
+  yield put(updateCommentIdsById({ ...commentIdsByPostId, ...idsByItemId }));
 }
 
 function* watchFetchPostRequests() {
