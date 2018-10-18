@@ -1,6 +1,13 @@
 import { routes } from 'common/routes';
-import { fetchPosts, setPage } from 'common/store/modules/posts/actions';
-import { fetchPosts as fetchPostsSaga } from 'common/store/modules/posts/sagas';
+import {
+  fetchPost,
+  fetchPosts,
+  setPage
+} from 'common/store/modules/posts/actions';
+import {
+  fetchPost as fetchPostSaga,
+  fetchPosts as fetchPostsSaga
+} from 'common/store/modules/posts/sagas';
 import { setStatusCode } from 'common/store/modules/response/actions';
 import { NOT_FOUND } from 'common/store/modules/response/status-codes';
 import { AppState } from 'common/store/types';
@@ -42,6 +49,24 @@ function* applyTopRouteEffects() {
   }
 }
 
+function* applyItemRouteEffects() {
+  const { router }: AppState = yield select();
+
+  const match = routes.item.match(router.location.pathname);
+
+  if (!match) {
+    return;
+  }
+
+  const id = match.params.id;
+
+  if (process.env.TARGET === 'browser') {
+    yield put(fetchPost(id));
+  } else {
+    yield call(fetchPostSaga, id);
+  }
+}
+
 function* applyNotFoundRouteEffects() {
   yield put(setStatusCode(NOT_FOUND));
 }
@@ -67,6 +92,10 @@ function* applyRouteEffects() {
 
   if (routes.show.match(pathname)) {
     return;
+  }
+
+  if (routes.item.match(pathname)) {
+    return yield fork(applyItemRouteEffects);
   }
 
   return yield fork(applyNotFoundRouteEffects);

@@ -23,7 +23,7 @@ const mapStateToProps = (state: AppState, { id }: IOwnProps) => {
     isVisible: true,
     author: post.user,
     points: post.points,
-    timeAgo: post.time_ago,
+    timeAgo: post.timeAgo,
     title: post.title
   };
 };

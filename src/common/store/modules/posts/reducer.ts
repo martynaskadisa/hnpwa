@@ -1,4 +1,4 @@
-import { createReducer, set, update } from 'common/utils/redux';
+import { createReducer, set, update, updateDeep } from 'common/utils/redux';
 import { combineReducers } from 'redux';
 import { IById } from '../../../utils/types';
 import {
@@ -6,13 +6,16 @@ import {
   SET_PAGE,
   SET_STATUS,
   Status,
+  UPDATE_BY_ID,
+  UPDATE_COMMENT_IDS_BY_ID,
   UPDATE_IDS_BY_PAGE
 } from './constants';
 import { IdsByPage, IPost, IState } from './types';
 
 const byIdReducer = createReducer<IById<IPost>>(
   {
-    [SET_BY_ID]: set
+    [SET_BY_ID]: set,
+    [UPDATE_BY_ID]: updateDeep
   },
   {}
 );
@@ -38,9 +41,17 @@ const idsByPageReducer = createReducer<IdsByPage>(
   {}
 );
 
+const commentIdsByIdReducer = createReducer<Record<string, string[]>>(
+  {
+    [UPDATE_COMMENT_IDS_BY_ID]: update
+  },
+  {}
+);
+
 export default combineReducers<IState>({
   page: pageReducer,
   idsByPage: idsByPageReducer,
   byId: byIdReducer,
-  status: statusReducer
+  status: statusReducer,
+  commentIdsById: commentIdsByIdReducer
 });

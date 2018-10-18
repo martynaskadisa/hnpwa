@@ -1,5 +1,4 @@
 import { ItemType } from 'common/api/types';
-import { IById } from 'common/utils/types';
 import { Status } from './constants';
 
 export interface IPost {
@@ -8,11 +7,15 @@ export interface IPost {
   points: number | null;
   user: string | null;
   time: number;
-  time_ago: string;
+  timeAgo: string;
   commentsCount: number;
   type: ItemType;
   url?: string;
   domain?: string;
+  content?: string;
+  deleted?: boolean;
+  dead?: boolean;
+  level?: number;
 }
 
 export interface IdsByPage {
@@ -21,7 +24,8 @@ export interface IdsByPage {
 
 export interface IState {
   status: Status;
-  byId: IById<IPost>;
+  byId: Record<string, IPost>;
   page: number;
   idsByPage: IdsByPage;
+  commentIdsById: Record<string, string[]>;
 }

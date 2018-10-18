@@ -1,3 +1,5 @@
+import { mergeDeepLeft } from 'ramda';
+
 export interface IAction<T> {
   type: string;
   payload?: T;
@@ -37,3 +39,6 @@ export const update = <T>(state: T, action: IAction<T>): T => ({
   ...(state as any),
   ...(action.payload as any)
 });
+
+export const updateDeep = <T, P>(state: T, action: IAction<P>): T & P =>
+  mergeDeepLeft(state, action.payload!);
