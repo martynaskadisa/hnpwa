@@ -6,10 +6,8 @@ interface IProps {
   id: string;
 }
 
-export const getPostById = (
-  state: AppState,
-  { id }: IProps
-): IPost | undefined => state.posts.byId[id];
+export const getById = (state: AppState, { id }: IProps): IPost | undefined =>
+  state.posts.byId[id];
 
 export const getIds = createSelector(
   (state: AppState) => state.posts.idsByPage,

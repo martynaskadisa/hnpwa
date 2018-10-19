@@ -1,7 +1,7 @@
 import { ItemType } from 'common/api/types';
 import { withVisibility } from 'common/hocs/withVisibility';
 import { routes } from 'common/routes';
-import { getPostById } from 'common/store/modules/posts/selectors';
+import { getById } from 'common/store/modules/posts/selectors';
 import { AppState } from 'common/store/types';
 import { connect } from 'react-redux';
 import PostLink from './component';
@@ -12,7 +12,7 @@ interface IOwnProps {
 }
 
 const mapStateToProps = (state: AppState, { id }: IOwnProps) => {
-  const post = getPostById(state, { id });
+  const post = getById(state, { id });
 
   if (!post) {
     return {

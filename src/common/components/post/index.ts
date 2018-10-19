@@ -1,5 +1,5 @@
 import { withVisibility } from 'common/hocs/withVisibility';
-import { getPostById } from 'common/store/modules/posts/selectors';
+import { getById } from 'common/store/modules/posts/selectors';
 import { AppState } from 'common/store/types';
 import { connect } from 'react-redux';
 import Post from './component';
@@ -8,10 +8,8 @@ interface IOwnProps {
   id: string;
 }
 
-const mapStateToProps = (state: AppState, { id }: IOwnProps) => {
-  const post = getPostById(state, {
-    id
-  });
+const mapStateToProps = (state: AppState, ownProps: IOwnProps) => {
+  const post = getById(state, ownProps);
 
   if (!post) {
     return {
