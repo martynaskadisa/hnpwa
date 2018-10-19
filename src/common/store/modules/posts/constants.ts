@@ -6,6 +6,8 @@ export const SET_STATUS = 'posts/SET_STATUS';
 export const SET_PAGE = 'posts/SET_PAGE';
 export const UPDATE_IDS_BY_PAGE = 'posts/UPDATE_IDS_BY_PAGE';
 export const UPDATE_COMMENT_IDS_BY_ID = 'posts/UPDATE_COMMENT_IDS_BY_ID';
+export const UPDATE_VISIBILITY_BY_ID = 'posts/UPDATE_VISIBILITY_BY_ID';
+export const TOGGLE_VISIBILITY_BY_ID = 'posts/TOGGLE_VISIBILITY_BY_ID';
 
 export enum Status {
   Idle = 'idle',

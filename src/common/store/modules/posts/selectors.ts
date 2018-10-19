@@ -20,3 +20,6 @@ export const getIds = createSelector(
 export const getNextPage = (state: AppState) => state.posts.page + 1;
 export const getPrevPage = (state: AppState) =>
   state.posts.page > 1 ? state.posts.page - 1 : null;
+
+export const getVisibility = (state: AppState, { id }: IProps) =>
+  state.posts.visibilityById[id];

@@ -7,9 +7,11 @@ import {
   SET_PAGE,
   SET_STATUS,
   Status,
+  TOGGLE_VISIBILITY_BY_ID,
   UPDATE_BY_ID,
   UPDATE_COMMENT_IDS_BY_ID,
-  UPDATE_IDS_BY_PAGE
+  UPDATE_IDS_BY_PAGE,
+  UPDATE_VISIBILITY_BY_ID
 } from './constants';
 import { IdsByPage, IPost } from './types';
 
@@ -25,3 +27,9 @@ export const updateIdsByPage = createActionCreator<IdsByPage>(
 export const updateCommentIdsById = createActionCreator<
   Record<string, string[]>
 >(UPDATE_COMMENT_IDS_BY_ID);
+export const updateVisibilityById = createActionCreator<
+  Record<string, boolean>
+>(UPDATE_VISIBILITY_BY_ID);
+export const toggleVisibilityById = createActionCreator<string>(
+  TOGGLE_VISIBILITY_BY_ID
+);

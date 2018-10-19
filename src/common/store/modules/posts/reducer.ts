@@ -8,7 +8,8 @@ import {
   Status,
   UPDATE_BY_ID,
   UPDATE_COMMENT_IDS_BY_ID,
-  UPDATE_IDS_BY_PAGE
+  UPDATE_IDS_BY_PAGE,
+  UPDATE_VISIBILITY_BY_ID
 } from './constants';
 import { IdsByPage, IPost, IState } from './types';
 
@@ -48,10 +49,18 @@ const commentIdsByIdReducer = createReducer<Record<string, string[]>>(
   {}
 );
 
+const visibilityByIdReducer = createReducer<Record<string, boolean>>(
+  {
+    [UPDATE_VISIBILITY_BY_ID]: update
+  },
+  {}
+);
+
 export default combineReducers<IState>({
   page: pageReducer,
   idsByPage: idsByPageReducer,
   byId: byIdReducer,
   status: statusReducer,
-  commentIdsById: commentIdsByIdReducer
+  commentIdsById: commentIdsByIdReducer,
+  visibilityById: visibilityByIdReducer
 });

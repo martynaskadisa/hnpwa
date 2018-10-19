@@ -28,4 +28,5 @@ export interface IState {
   page: number;
   idsByPage: IdsByPage;
   commentIdsById: Record<string, string[]>;
+  visibilityById: Record<string, boolean>;
 }

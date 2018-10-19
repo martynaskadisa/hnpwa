@@ -1,3 +1,4 @@
+import CollapseButton from 'common/components/collapse-button';
 import CommentList from 'common/components/comment-list';
 import * as React from 'react';
 
@@ -6,9 +7,16 @@ export interface IProps {
   id: string;
   author?: string | null;
   timeAgo: string;
+  isContentVisible?: boolean;
 }
 
-const Comment: React.SFC<IProps> = ({ content = '', id, author, timeAgo }) => (
+const Comment: React.SFC<IProps> = ({
+  content = '',
+  id,
+  author,
+  timeAgo,
+  isContentVisible = true
+}) => (
   <div
     style={{
       paddingTop: '.5em',
@@ -27,12 +35,16 @@ const Comment: React.SFC<IProps> = ({ content = '', id, author, timeAgo }) => (
         alignItems: 'center'
       }}
     >
-      <pre style={{ display: 'inline-block', margin: 0 }}>[-]</pre>
+      <CollapseButton id={id} />
       &nbsp;
       {author} {timeAgo}
     </div>
-    <div dangerouslySetInnerHTML={{ __html: content }} />
-    <CommentList id={id} />
+    {isContentVisible && (
+      <>
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <CommentList id={id} />
+      </>
+    )}
   </div>
 );
 
