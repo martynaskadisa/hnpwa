@@ -42,7 +42,10 @@ const Comment: React.SFC<IProps> = ({
     </div>
     {isContentVisible && (
       <>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div
+          className="comment"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
         <CommentList id={id} />
       </>
     )}
