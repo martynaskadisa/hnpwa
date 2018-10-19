@@ -12,7 +12,16 @@ const Item: React.SFC<Props> = ({
 }) => (
   <div>
     <Post id={id} />
-    <CommentList id={id} />
+    <div
+      style={{
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'column',
+        paddingRight: '.5em'
+      }}
+    >
+      <CommentList id={id} />
+    </div>
   </div>
 );
 

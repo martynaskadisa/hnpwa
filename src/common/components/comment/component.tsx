@@ -19,11 +19,10 @@ const Comment: React.SFC<IProps> = ({
 }) => (
   <div
     style={{
-      paddingTop: '.5em',
-      borderLeft: '1px solid rgb(130, 130, 130)',
+      borderLeft: '1px solid rgb(130, 130, 130, 0.3)',
       display: 'flex',
       flexDirection: 'column',
-      paddingLeft: '.5em',
+      padding: '.25em 0 0 .5em',
       marginLeft: '.5em'
     }}
   >
@@ -37,7 +36,9 @@ const Comment: React.SFC<IProps> = ({
     >
       <CollapseButton id={id} />
       &nbsp;
-      {author} {timeAgo}
+      <i>{author}</i>
+      &nbsp;
+      {timeAgo}
     </div>
     {isContentVisible && (
       <>

@@ -30,7 +30,7 @@ const Html: React.SFC<IProps> = ({ scripts = [], children, app, state }) => (
         <script key={script} src={script} async={true} type="module" />
       ))}
       <style
-      >{`html{box-sizing:border-box;background-color:#f6f6ef}*,*:before,*:after{box-sizing: inherit}body{margin:0;font-family:sans-serif}a{color:#000}`}</style>
+      >{`html{box-sizing:border-box;background-color:#f6f6ef}*,*:before,*:after{box-sizing: inherit}body{margin:0;font-family:sans-serif}a{color:#000;overflow-wrap:break-word}`}</style>
     </head>
     <body>
       <div id={ROOT_ID}>{app}</div>
