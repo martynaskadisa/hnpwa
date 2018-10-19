@@ -11,13 +11,15 @@ import { routes } from './routes';
 const App: React.SFC = () => (
   <>
     <Navbar />
-    <Switch>
-      <Route from={routes.home.path} exact={true} component={Top} />
-      <Route path={routes.top.path} component={Top} />
-      <Route path={routes.new.path} component={New} />
-      <Route path={routes.item.path} component={item} />
-      <Route component={NotFound} />
-    </Switch>
+    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <Switch>
+        <Route from={routes.home.path} exact={true} component={Top} />
+        <Route path={routes.top.path} component={Top} />
+        <Route path={routes.new.path} component={New} />
+        <Route path={routes.item.path} component={item} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
   </>
 );
 
