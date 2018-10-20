@@ -1,5 +1,6 @@
 import CommentList from 'common/components/comment-list';
 import Post from 'common/components/post';
+import PostContent from 'common/components/post-content';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ const Item: React.SFC<Props> = ({
 }) => (
   <div>
     <Post id={id} />
+    <PostContent id={id} />
     <div
       style={{
         display: 'flex',
