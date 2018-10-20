@@ -1,4 +1,6 @@
 # [hnpwa](https://hnpwa.now.sh)
+[![Website hnpwa.now.sh](https://img.shields.io/website-up-down-green-red/https/hnpwa.now.sh.svg)](https://hnpwa.now.sh/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 Hacker news clone written in TypeScript, React and Redux. 
 
