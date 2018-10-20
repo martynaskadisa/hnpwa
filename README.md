@@ -1,6 +1,6 @@
 # [hnpwa](https://hnpwa.now.sh)
 
-Hacker new close written in TypeScript, React and Redux. 
+Hacker news clone written in TypeScript, React and Redux. 
 
 You can find it hosted here: https://hnpwa.now.sh
 
