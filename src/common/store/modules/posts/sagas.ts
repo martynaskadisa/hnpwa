@@ -28,13 +28,17 @@ import {
 export function* fetchPosts(page = 1) {
   yield put(setStatus(Status.Fetching));
 
-  const posts: IFeedItem[] = yield call(getNews, page);
-  const byId = normalizePosts(posts);
-  const ids = extractIds(posts);
+  try {
+    const posts: IFeedItem[] = yield call(getNews, page);
+    const byId = normalizePosts(posts);
+    const ids = extractIds(posts);
 
-  yield put(updateById(byId));
-  yield put(updateIdsByPage({ [page]: ids }));
-  yield put(setStatus(Status.Idle));
+    yield put(updateById(byId));
+    yield put(updateIdsByPage({ [page]: ids }));
+    yield put(setStatus(Status.Idle));
+  } catch (e) {
+    yield put(setStatus(Status.Error));
+  }
 }
 
 export function* fetchPost(id: string) {
