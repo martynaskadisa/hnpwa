@@ -7,7 +7,7 @@ import Feed, { IProps } from './component';
 
 const typeSelector = (state: AppState): RouteNameWithPosts | null => {
   const url = state.router.location.pathname;
-  if (routes.top.match(url)) {
+  if (routes.top.match(url) || routes.home.match(url)) {
     return 'top';
   }
 

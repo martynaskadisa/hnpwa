@@ -27,5 +27,13 @@ export const getPrevPage = (state: AppState, { route }: IOwnPropsWithRoute) =>
     ? state.posts.dataByRoute[route].page - 1
     : null;
 
+export const getPageLength = createSelector(
+  (state: AppState, { route }: IOwnPropsWithRoute) =>
+    state.posts.dataByRoute[route].idsByPage,
+  (state: AppState, { route }: IOwnPropsWithRoute) =>
+    state.posts.dataByRoute[route].page,
+  (idsByPage, page) => (idsByPage[page] ? idsByPage[page].length : 0)
+);
+
 export const getVisibility = (state: AppState, { id }: { id: string }) =>
   state.posts.visibilityById[id];
