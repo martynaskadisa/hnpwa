@@ -1,4 +1,5 @@
 import { ItemType } from 'common/api/types';
+import { RouteNameWithPosts } from 'common/routes';
 import { Status } from './constants';
 
 export interface IPost {
@@ -18,15 +19,21 @@ export interface IPost {
   level?: number;
 }
 
-export interface IdsByPage {
-  [page: string]: string[] | undefined;
+export interface IRouteData {
+  status: Status;
+  idsByPage: IdsByPage;
+  page: number;
 }
 
+export type ById = Record<string, IPost>;
+export type IdsByPage = Record<string | number, string[]>;
+export type CommentIdsById = Record<string, string[]>;
+export type VisibilityById = Record<string, boolean>;
+export type DataByRoute = Record<RouteNameWithPosts, IRouteData>;
+
 export interface IState {
-  status: Status;
-  byId: Record<string, IPost>;
-  page: number;
-  idsByPage: IdsByPage;
-  commentIdsById: Record<string, string[]>;
-  visibilityById: Record<string, boolean>;
+  byId: ById;
+  commentIdsById: CommentIdsById;
+  visibilityById: VisibilityById;
+  dataByRoute: DataByRoute;
 }

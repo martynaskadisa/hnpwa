@@ -34,27 +34,27 @@ const Navbar: React.SFC = () => (
       }}
     >
       <li style={liStyle}>
-        <Link to={routes.home.path} style={linkStyle}>
+        <Link to={routes.top.generatePath(1)} style={linkStyle}>
           top
         </Link>
       </li>
       <li style={liStyle}>
-        <Link to={routes.new.path} style={linkStyle}>
+        <Link to={routes.new.generatePath(1)} style={linkStyle}>
           new
         </Link>
       </li>
       <li style={liStyle}>
-        <Link to={routes.show.path} style={linkStyle}>
+        <Link to={routes.show.generatePath(1)} style={linkStyle}>
           show
         </Link>
       </li>
       <li style={liStyle}>
-        <Link to="/ask" style={linkStyle}>
+        <Link to={routes.ask.generatePath(1)} style={linkStyle}>
           ask
         </Link>
       </li>
       <li style={liStyle}>
-        <Link to="/jobs" style={linkStyle}>
+        <Link to={routes.jobs.generatePath(1)} style={linkStyle}>
           jobs
         </Link>
       </li>

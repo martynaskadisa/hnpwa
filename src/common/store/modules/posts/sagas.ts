@@ -1,6 +1,7 @@
 import { getItem } from 'common/api/item';
-import { getNews } from 'common/api/news';
+import { Feed, getFeed } from 'common/api/news';
 import { IFeedItem, Item } from 'common/api/types';
+import { RouteNameWithPosts } from 'common/routes';
 import { getVisibility } from 'common/store/modules/posts/selectors';
 import { AppState } from 'common/store/types';
 import { IAction } from 'common/utils/redux';
@@ -25,19 +26,27 @@ import {
   normalizePosts
 } from './transformers';
 
-export function* fetchPosts(page = 1) {
-  yield put(setStatus(Status.Fetching));
+const feedByRoute: Record<RouteNameWithPosts, Feed> = {
+  top: 'news',
+  new: 'newest',
+  show: 'show',
+  ask: 'ask',
+  jobs: 'jobs'
+};
+
+export function* fetchPosts(route: RouteNameWithPosts, page = 1) {
+  yield put(setStatus({ key: route, value: Status.Fetching }));
 
   try {
-    const posts: IFeedItem[] = yield call(getNews, page);
+    const posts: IFeedItem[] = yield call(getFeed, feedByRoute[route], page);
     const byId = normalizePosts(posts);
     const ids = extractIds(posts);
 
     yield put(updateById(byId));
-    yield put(updateIdsByPage({ [page]: ids }));
-    yield put(setStatus(Status.Idle));
+    yield put(updateIdsByPage({ value: { [page]: ids }, key: route }));
+    yield put(setStatus({ key: route, value: Status.Idle }));
   } catch (e) {
-    yield put(setStatus(Status.Error));
+    yield put(setStatus({ key: route, value: Status.Error }));
   }
 }
 
@@ -79,12 +88,17 @@ function* watchFetchPostRequests() {
 
 function* watchFetchPostsRequests() {
   while (true) {
-    yield take(FETCH_POSTS);
-    const {
-      posts: { page }
-    }: AppState = yield select();
+    const { payload: route }: IAction<RouteNameWithPosts> = yield take(
+      FETCH_POSTS
+    );
 
-    yield call(fetchPosts, page);
+    if (route) {
+      const page: number = yield select(
+        (state: AppState) => state.posts.dataByRoute[route].page
+      );
+
+      yield call(fetchPosts, route, page);
+    }
   }
 }
 
