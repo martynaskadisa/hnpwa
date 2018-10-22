@@ -1,5 +1,5 @@
 import Navbar from 'common/components/navbar/component';
-import Feed from 'common/scenes/Feed';
+import Feed from 'common/scenes/feed';
 import Item from 'common/scenes/item';
 import NotFound from 'common/scenes/not-found';
 import * as React from 'react';
