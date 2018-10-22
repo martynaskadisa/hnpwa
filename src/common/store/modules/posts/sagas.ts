@@ -1,5 +1,5 @@
+import { Feed, getFeed } from 'common/api/feed';
 import { getItem } from 'common/api/item';
-import { Feed, getFeed } from 'common/api/news';
 import { IFeedItem, Item } from 'common/api/types';
 import { RouteNameWithPosts } from 'common/routes';
 import { getVisibility } from 'common/store/modules/posts/selectors';
