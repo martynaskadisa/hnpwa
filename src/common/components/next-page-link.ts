@@ -1,5 +1,5 @@
 import { VisibilityProps, withVisibility } from 'common/hocs/withVisibility';
-import { RouteNameWithPosts, routes } from 'common/routes';
+import { generatePathByRoute, RouteNameWithPosts } from 'common/routes';
 import {
   getNextPage,
   getPageLength
@@ -13,17 +13,6 @@ type StateProps = Pick<LinkProps, 'to' | 'children'>;
 interface IOwnProps {
   route: RouteNameWithPosts;
 }
-
-const generatePathByRoute: Record<
-  RouteNameWithPosts,
-  (page: number) => string
-> = {
-  top: routes.top.generatePath,
-  new: routes.new.generatePath,
-  ask: routes.ask.generatePath,
-  jobs: routes.jobs.generatePath,
-  show: routes.show.generatePath
-};
 
 const MAX_PAGE_LENGTH = 30;
 

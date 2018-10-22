@@ -49,3 +49,14 @@ export type RouteNameWithPosts = keyof Pick<
   typeof routes,
   'top' | 'new' | 'show' | 'ask' | 'jobs'
 >;
+
+export const generatePathByRoute: Record<
+  RouteNameWithPosts,
+  (page: number) => string
+> = {
+  top: routes.top.generatePath,
+  new: routes.new.generatePath,
+  ask: routes.ask.generatePath,
+  jobs: routes.jobs.generatePath,
+  show: routes.show.generatePath
+};

@@ -1,5 +1,5 @@
 import { VisibilityProps, withVisibility } from 'common/hocs/withVisibility';
-import { RouteNameWithPosts, routes } from 'common/routes';
+import { generatePathByRoute, RouteNameWithPosts } from 'common/routes';
 import { getPrevPage } from 'common/store/modules/posts/selectors';
 import { AppState } from 'common/store/types';
 import { connect } from 'react-redux';
@@ -10,17 +10,6 @@ type StateProps = VisibilityProps<Pick<LinkProps, 'to' | 'children'>>;
 interface IOwnProps {
   route: RouteNameWithPosts;
 }
-
-const generatePathByRoute: Record<
-  RouteNameWithPosts,
-  (page: number) => string
-> = {
-  top: routes.top.generatePath,
-  new: routes.new.generatePath,
-  ask: routes.ask.generatePath,
-  jobs: routes.jobs.generatePath,
-  show: routes.show.generatePath
-};
 
 const mapStateToProps = (state: AppState, { route }: IOwnProps): StateProps => {
   const prevPage = getPrevPage(state, { route });
