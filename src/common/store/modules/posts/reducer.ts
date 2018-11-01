@@ -1,6 +1,14 @@
-import { createReducer, set, update, updateDeep } from 'common/utils/redux';
+import { RouteNameWithPosts } from 'common/routes';
+import {
+  createReducer,
+  set,
+  setByKey,
+  update,
+  updateByKey,
+  updateDeep
+} from 'common/utils/redux';
+import { IById } from 'common/utils/types';
 import { combineReducers } from 'redux';
-import { IById } from '../../../utils/types';
 import {
   SET_BY_ID,
   SET_PAGE,
@@ -11,7 +19,7 @@ import {
   UPDATE_IDS_BY_PAGE,
   UPDATE_VISIBILITY_BY_ID
 } from './constants';
-import { IdsByPage, IPost, IState } from './types';
+import { DataByRoute, IdsByPage, IPost, IRouteData, IState } from './types';
 
 const byIdReducer = createReducer<IById<IPost>>(
   {
@@ -21,26 +29,29 @@ const byIdReducer = createReducer<IById<IPost>>(
   {}
 );
 
-const pageReducer = createReducer<number>(
-  {
-    [SET_PAGE]: set
-  },
-  1
-);
+const createPageReducer = (route: RouteNameWithPosts) =>
+  createReducer<number>(
+    {
+      [SET_PAGE]: setByKey(route)
+    },
+    1
+  );
 
-const statusReducer = createReducer<Status>(
-  {
-    [SET_STATUS]: set
-  },
-  Status.Idle
-);
+const createStatusReducer = (route: RouteNameWithPosts) =>
+  createReducer<Status>(
+    {
+      [SET_STATUS]: setByKey(route)
+    },
+    Status.Idle
+  );
 
-const idsByPageReducer = createReducer<IdsByPage>(
-  {
-    [UPDATE_IDS_BY_PAGE]: update
-  },
-  {}
-);
+const createIdsByPageReducer = (route: RouteNameWithPosts) =>
+  createReducer<IdsByPage>(
+    {
+      [UPDATE_IDS_BY_PAGE]: updateByKey(route)
+    },
+    {}
+  );
 
 const commentIdsByIdReducer = createReducer<Record<string, string[]>>(
   {
@@ -56,11 +67,37 @@ const visibilityByIdReducer = createReducer<Record<string, boolean>>(
   {}
 );
 
+const dataByRouteReducer = combineReducers<DataByRoute>({
+  top: combineReducers<IRouteData>({
+    idsByPage: createIdsByPageReducer('top'),
+    page: createPageReducer('top'),
+    status: createStatusReducer('top')
+  }),
+  new: combineReducers<IRouteData>({
+    idsByPage: createIdsByPageReducer('new'),
+    page: createPageReducer('new'),
+    status: createStatusReducer('new')
+  }),
+  show: combineReducers<IRouteData>({
+    idsByPage: createIdsByPageReducer('show'),
+    page: createPageReducer('show'),
+    status: createStatusReducer('show')
+  }),
+  ask: combineReducers<IRouteData>({
+    idsByPage: createIdsByPageReducer('ask'),
+    page: createPageReducer('ask'),
+    status: createStatusReducer('ask')
+  }),
+  jobs: combineReducers<IRouteData>({
+    idsByPage: createIdsByPageReducer('jobs'),
+    page: createPageReducer('jobs'),
+    status: createStatusReducer('jobs')
+  })
+});
+
 export default combineReducers<IState>({
-  page: pageReducer,
-  idsByPage: idsByPageReducer,
   byId: byIdReducer,
-  status: statusReducer,
   commentIdsById: commentIdsByIdReducer,
-  visibilityById: visibilityByIdReducer
+  visibilityById: visibilityByIdReducer,
+  dataByRoute: dataByRouteReducer
 });

@@ -1,4 +1,4 @@
-import { routes } from 'common/routes';
+import { RouteNameWithPosts, routes } from 'common/routes';
 import {
   fetchPost,
   fetchPosts,
@@ -21,31 +21,39 @@ function* watchRouteChanges() {
 function* applyHomeRouteEffects() {
   const page = 1;
   yield put(replace(routes.top.generatePath(page)));
-  yield put(setPage(page));
+  yield put(setPage({ value: page, key: 'top' }));
 
   if (process.env.TARGET === 'browser') {
-    yield put(fetchPosts());
+    yield put(fetchPosts('top'));
   } else {
-    yield call(fetchPostsSaga, page);
+    yield call(fetchPostsSaga, 'top', page);
   }
 }
 
-function* applyTopRouteEffects() {
+const matchByType = {
+  top: routes.top.match,
+  ask: routes.ask.match,
+  jobs: routes.jobs.match,
+  new: routes.new.match,
+  show: routes.show.match
+};
+
+function* applyFeedRouteEffect(type: RouteNameWithPosts) {
   const { router }: AppState = yield select();
 
-  const match = routes.top.match(router.location.pathname);
+  const match = matchByType[type](router.location.pathname);
 
   if (!match) {
     return;
   }
 
   const page = parseInt(match.params.page, 10);
-  yield put(setPage(page));
+  yield put(setPage({ value: page, key: type }));
 
   if (process.env.TARGET === 'browser') {
-    yield put(fetchPosts());
+    yield put(fetchPosts(type));
   } else {
-    yield call(fetchPostsSaga, page);
+    yield call(fetchPostsSaga, type, page);
   }
 }
 
@@ -83,15 +91,23 @@ function* applyRouteEffects() {
   }
 
   if (routes.top.match(pathname)) {
-    return yield fork(applyTopRouteEffects);
+    return yield call(applyFeedRouteEffect, 'top');
   }
 
   if (routes.new.match(pathname)) {
-    return;
+    return yield fork(applyFeedRouteEffect, 'new');
   }
 
   if (routes.show.match(pathname)) {
-    return;
+    return yield fork(applyFeedRouteEffect, 'show');
+  }
+
+  if (routes.jobs.match(pathname)) {
+    return yield fork(applyFeedRouteEffect, 'jobs');
+  }
+
+  if (routes.ask.match(pathname)) {
+    return yield fork(applyFeedRouteEffect, 'ask');
   }
 
   if (routes.item.match(pathname)) {

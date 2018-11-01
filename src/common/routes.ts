@@ -2,8 +2,10 @@ import { matchPath } from 'react-router-dom';
 
 const HOME = '/';
 const TOP = '/top/:page';
-const NEWEST = '/newest';
-const SHOW = '/show';
+const NEWEST = '/newest/:page';
+const SHOW = '/show/:page';
+const JOBS = '/jobs/:page';
+const ASK = '/ask/:page';
 const ITEM = '/item/:id';
 
 export const routes = {
@@ -18,15 +20,43 @@ export const routes = {
   },
   new: {
     path: NEWEST,
-    match: (url: string) => matchPath(url, { path: NEWEST })
+    match: (url: string) => matchPath<{ page: string }>(url, { path: NEWEST }),
+    generatePath: (page: number) => `/newest/${page}`
   },
   show: {
     path: SHOW,
-    match: (url: string) => matchPath(url, { path: SHOW })
+    match: (url: string) => matchPath<{ page: string }>(url, { path: SHOW }),
+    generatePath: (page: number) => `/show/${page}`
+  },
+  jobs: {
+    path: JOBS,
+    match: (url: string) => matchPath<{ page: string }>(url, { path: JOBS }),
+    generatePath: (page: number) => `/jobs/${page}`
+  },
+  ask: {
+    path: ASK,
+    match: (url: string) => matchPath<{ page: string }>(url, { path: ASK }),
+    generatePath: (page: number) => `/ask/${page}`
   },
   item: {
     path: ITEM,
     match: (url: string) => matchPath<{ id: string }>(url, { path: ITEM }),
     generatePath: (id: string) => `/item/${id}`
   }
+};
+
+export type RouteNameWithPosts = keyof Pick<
+  typeof routes,
+  'top' | 'new' | 'show' | 'ask' | 'jobs'
+>;
+
+export const generatePathByRoute: Record<
+  RouteNameWithPosts,
+  (page: number) => string
+> = {
+  top: routes.top.generatePath,
+  new: routes.new.generatePath,
+  ask: routes.ask.generatePath,
+  jobs: routes.jobs.generatePath,
+  show: routes.show.generatePath
 };
